@@ -20,12 +20,28 @@ const CountersList = () => {
         setCounters(initialState)
     }
 
+    const changeValue = value => counters.map(c => c.id === value.id ? value : c)
+
+    const handleIncrement = (props) => {
+        const newValue = { ...props }
+        newValue.value += 1
+        setCounters(changeValue(newValue))
+    }
+
+    const handleDecrement = (props) => {
+        const newValue = { ...props }
+        if (newValue.value > 0) { newValue.value -= 1 }
+        setCounters(changeValue(newValue))
+    }
+
     return <>
         {
             counters.map(count =>
                 <Counter key={count.id}
                     {...count}
                     onDelete={handleDelete}
+                    onIncrement={handleIncrement}
+                    onDecrement={handleDecrement}
                 />)
         }
         <button className="btn btn-primary btn-sm m2" onClick={handleReset}>Сброс</button>
